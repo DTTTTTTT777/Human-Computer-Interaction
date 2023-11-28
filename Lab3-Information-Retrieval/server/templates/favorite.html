@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Favorites</title>
+</head>
+
+<body style="background: white">
+    <div style="background: White">
+
+        <div class="navbar-inner" style="background: rgb(247, 170, 196)">
+            <h1 class="text-center" style="color:FloralWhite;text-align: center"><b>Image Retrieval
+                    System</b>&nbsp;&nbsp;&nbsp;
+            </h1>
+        </div>
+
+        <h2 style="color: rgb(247, 170, 196);text-align: center; font-size: xx-large;"><b>Favorites⭐</b></td>
+            <td><b></b>
+        </h2>
+
+    </div>
+    <div><br></br><br></br></div>
+    </div>
+
+    <div id="main" class="container">
+        <table class="table">
+            <tr id="favorite_row" style="display: grid;
+                grid-template-columns: repeat(5, 330px); /* 定义3列，每列的宽度为 1fr */
+                grid-template-rows: repeat(300px);  /*定义3行，每行的高度为 250px;*/
+                height: 200px;
+                gap: 10px; /* 设置网格项之间的间距 */
+                "></tr>
+        </table>
+        <br><br><br>
+        <div id="imgBox" style="display:none">
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    var favorite_row = document.getElementById('favorite_row');
+    var favorite_list = JSON.parse(localStorage.getItem("favorite"))
+    for (var i = 0; i < favorite_list.length; i++) {
+        var imgBox = document.getElementById("imgBox");
+        imgBox.innerHTML += "<img id='img" + i + "' width=auto height='200' style='margin: 20px' '/>";
+        var imgObjPreview = document.getElementById("img" + i);
+        imgObjPreview.src = "favorite/" + favorite_list[i].split("result/")[1];
+
+        var new_td = document.createElement('td');
+        new_td.innerHTML = `
+                    <div  style=" box-shadow: 3px 5px 15px 0px rgba(120, 108, 108, 0.2), 3px 5px 15px 0 rgba(120, 108, 108, 0.2);">
+                      <div>
+                        <img id = "favo${i}" src=${imgObjPreview.src} alt="Norway" style="
+                          transition: 0.3s;
+                          height: 200px;
+                          width: auto;
+                          padding: 5px;
+                        ">
+                      </div>
+                      <button id="remove${i}" style="
+                          border: none;
+                          background-color: transparent;
+                          color: pink;
+                          width: 20px;
+                          height: 20px;
+                          font-size: xx-large;
+                          font-weight: bolder;
+                          margin: 7px;
+                        " onclick="remove_favorite(${i})">★</button>
+                      </div>
+                    `;
+        favorite_row.appendChild(new_td);
+    };
+    function remove_favorite(idx) {
+        var favorite_list = JSON.parse(localStorage.getItem("favorite"));
+        favorite_list.splice(idx, 1);
+        localStorage.setItem("favorite", JSON.stringify(favorite_list));
+        location.reload(); // 重新加载页面或更新页面中的内容
+        var r_button = document.getElementById("remove" + idx);
+        r_button.innerHTML = '✰';
+        alert("Delete  Successfully!");
+    }
+</script>
